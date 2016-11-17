@@ -19,5 +19,12 @@ module.exports = {
             user: 'xxx@163.com',
             pass: 'xxx'
         }
+    },
+    retryOption: {
+        retries: 5,
+        factor: 3,
+        minTimeout: 1 * 1000,
+        maxTimeout: 60 * 1000,
+        randomize: true,
     }
 };
