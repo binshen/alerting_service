@@ -11,5 +11,13 @@ module.exports = {
     rabbitMQ: {
         'ex': 'ex_alert',
         'uri': 'amqp://guest:guest@host'
+    },
+    smtpOption: {
+        host: 'smtp.163.com',
+        port: 25,
+        auth: {
+            user: 'xxx@163.com',
+            pass: 'xxx'
+        }
     }
 };

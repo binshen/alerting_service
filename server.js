@@ -3,11 +3,26 @@
  */
 
 var amqp = require('amqplib/callback_api');
+var nodemailer = require("nodemailer");
+var smtpTransport = require('nodemailer-smtp-transport');
 var TopClient = require('./topClient').TopClient;
 var config = require('./config');
 
 var send_email = function(email, address, level) {
-
+    var to = email;
+    var subject = '七星博士环境监测报警邮件';
+    var html = '<div>' + address + '发生警报，警报等级：' + level + '，请马上处理。</div>';
+    var transport = nodemailer.createTransport(smtpTransport(config.smtpOption));
+    var mailOptions = {
+        from: config.smtpOption.auth.user,
+        to: to,
+        subject:subject,
+        html:html
+    };
+    transport.sendMail(mailOptions, function(err, doc){
+        console.log(err);
+        console.log(doc);
+    });
 };
 
 var send_phone_text = function(tel, address, level) {

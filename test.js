@@ -8,18 +8,18 @@ var amqp = require('amqplib/callback_api');
 var ex = 'ex_alert';
 var uri = 'amqp://guest:guest@121.40.92.176';
 
-amqp.connect(uri, function(err, conn) {
-    conn.createChannel(function(err, ch) {
-
-        var level = 1;
-        var msg = '{"mac": "accf23b87fbf", "address":"江苏省昆山市摩瑞尔电器", "level":' + level + '}';
-
-        ch.assertExchange(ex, 'fanout', { durable: false });
-        ch.publish(ex, '', new Buffer(msg));
-        console.log(" [x] Sent %s", msg);
-    });
-    setTimeout(function() { conn.close(); process.exit(0) }, 500);
-});
+// amqp.connect(uri, function(err, conn) {
+//     conn.createChannel(function(err, ch) {
+//
+//         var level = 1;
+//         var msg = '{"mac": "accf23b87fbf", "address":"江苏省昆山市摩瑞尔电器", "level":' + level + '}';
+//
+//         ch.assertExchange(ex, 'fanout', { durable: false });
+//         ch.publish(ex, '', new Buffer(msg));
+//         console.log(" [x] Sent %s", msg);
+//     });
+//     setTimeout(function() { conn.close(); process.exit(0) }, 500);
+// });
 
 
 // var config = require('./config');
@@ -41,21 +41,22 @@ amqp.connect(uri, function(err, conn) {
 
 // var nodemailer = require("nodemailer");
 // var smtpTransport = require('nodemailer-smtp-transport');
+//
 // var to = '23420800@qq.com';
-// var subject = '邮件标题'; //发送的标题
-// var html = '<div>邮件内容</div>';//发送的内容
+// var subject = '七星博士环境监测报警邮件'; //发送的标题
+// var html = '<div>江苏省昆山市摩瑞尔电器发生警报，警报等级：一级，请马上处理。</div>';//发送的内容
+//
 // var transport = nodemailer.createTransport(smtpTransport({
 //     host: 'smtp.163.com',
-//     port: 465,
-//     secure:true,
+//     port: 25,
 //     auth: {
-//         user: 'moral_alerting@qq.com',//你真实的邮箱
-//         pass: 'moral2016'//真实的密码
+//         user: '18118438026@163.com',//你真实的邮箱
+//         pass: 'qwer1234'//真实的密码
 //     }
 // }));
 //
 // var mailOptions = {
-//     from: 'xxx <no_reply@xxx.com>',
+//     from: '18118438026@163.com',
 //     to: to,
 //     subject:subject,
 //     html:html
