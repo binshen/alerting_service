@@ -1,0 +1,10 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "dependencies": {
+    "amqplib":"~0.5.1",
+    "urllib": ">=0.5.2",
+    "nodemailer": "~2.6.4",
+    "nodemailer-smtp-transport": "~2.7.2"
+  }
+}
