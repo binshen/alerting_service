@@ -54,8 +54,8 @@ var make_phone_call = function(tel, address, level) {
     });
 };
 
-var tel = "18118438026";
-var email = "23420800@qq.com";
+// var tel = "18118438026";
+// var email = "23420800@qq.com";
 
 amqp.connect(config.rabbitMQ.uri, function(err, conn) {
     conn.createChannel(function(err, ch) {
@@ -67,6 +67,8 @@ amqp.connect(config.rabbitMQ.uri, function(err, conn) {
                 var data = JSON.parse(msg.content);
                 var level = data.level;
                 var address = data.address;
+                var tel = data.tel;
+                var email = data.email;
                 if(level == 1) {
                     send_email(email, address, level);
                 } else if(level == 2) {
