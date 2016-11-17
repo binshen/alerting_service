@@ -69,17 +69,18 @@ amqp.connect(config.rabbitMQ.uri, function(err, conn) {
             console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
             ch.bindQueue(q.queue, config.rabbitMQ.ex, '');
             ch.consume(q.queue, function(msg) {
+                console.log(msg.content.toString());
                 var data = JSON.parse(msg.content);
                 var level = data.level;
                 var address = data.address;
                 var tel = data.tel;
                 var email = data.email;
                 if(level == 1) {
-                    send_email(email, address, level);
+                    send_email(email, address, "一级");
                 } else if(level == 2) {
-                    send_phone_text(tel, address, level);
+                    send_phone_text(tel, address, "二级");
                 } else if(level == 3) {
-                    make_phone_call(tel, address, level);
+                    make_phone_call(tel, address, "三级");
                 } else {
                     //TODO
                 }
