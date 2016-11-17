@@ -7,18 +7,28 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var amqp = require('amqplib/callback_api');
 var config = require('./config');
 
-// amqp.connect(uri, function(err, conn) {
-//     conn.createChannel(function(err, ch) {
-//
-//         var level = 1;
-//         var msg = '{"mac": "accf23b87fbf", "address":"江苏省昆山市摩瑞尔电器", "level":' + level + '}';
-//
-//         ch.assertExchange(config.rabbitMQ.uri, 'fanout', { durable: false });
-//         ch.publish(config.rabbitMQ.ex, '', new Buffer(msg));
-//         console.log(" [x] Sent %s", msg);
-//     });
-//     setTimeout(function() { conn.close(); process.exit(0) }, 500);
-// });
+amqp.connect(config.rabbitMQ.uri, function(err, conn) {
+    conn.createChannel(function(err, ch) {
+
+        var level = 1;
+        var address = "江苏省昆山市摩瑞尔电器";
+
+        var data = {
+            mac: "accf23b87fbf",
+            address: address,
+            level: level,
+            tel: "18118438026",
+            email: "18118438026@163.com"
+        };
+        var msg = JSON.stringify(data);
+
+        ch.assertExchange(config.rabbitMQ.ex, 'fanout', { durable: false });
+        ch.publish(config.rabbitMQ.ex, '', new Buffer(msg));
+        console.log(" [x] Sent %s", msg);
+    });
+    setTimeout(function() { conn.close(); process.exit(0) }, 500);
+});
+
 //
 // var TopClient = require('./topClient').TopClient;
 // var client = new TopClient(config.topClientOption);
@@ -53,28 +63,26 @@ var config = require('./config');
 //     console.log(err);
 //     console.log(doc);
 // });
-
-var retry = require('retry');
-
-var send_email = function(email, address, level) {
-    var operation = retry.operation(config.retryOption);
-    operation.attempt(function(currentAttempt) {
-        var to = email;
-        var subject = '七星博士环境监测报警邮件';
-        var html = '<div>' + address + '发生警报，警报等级：' + level + '，请马上处理。</div>';
-        var transport = nodemailer.createTransport(smtpTransport(config.smtpOption));
-        var mailOptions = {
-            from: config.smtpOption.auth.user,
-            to: to,
-            subject:subject,
-            html:html
-        };
-        transport.sendMail(mailOptions, function(err, doc){
-            if (operation.retry(err)) {
-                return;
-            }
-        });
-    });
-};
-
-send_email("23420800@qq.com", "北京", "二级");
+//
+// var retry = require('retry');
+//
+// var send_email = function(email, address, level) {
+//     var operation = retry.operation(config.retryOption);
+//     operation.attempt(function(currentAttempt) {
+//         var to = email;
+//         var subject = '七星博士环境监测报警邮件';
+//         var html = '<div>' + address + '发生警报，警报等级：' + level + '，请马上处理。</div>';
+//         var transport = nodemailer.createTransport(smtpTransport(config.smtpOption));
+//         var mailOptions = {
+//             from: config.smtpOption.auth.user,
+//             to: to,
+//             subject:subject,
+//             html:html
+//         };
+//         transport.sendMail(mailOptions, function(err, doc){
+//             if (operation.retry(err)) {
+//                 return;
+//             }
+//         });
+//     });
+// };
