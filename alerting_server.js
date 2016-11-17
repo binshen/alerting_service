@@ -20,8 +20,9 @@ var send_email = function(email, address, level) {
         html:html
     };
     transport.sendMail(mailOptions, function(err, doc){
-        console.log(err);
-        console.log(doc);
+        if(err && doc == null) {
+            send_email(email, address, level);
+        }
     });
 };
 
