@@ -6,6 +6,7 @@ var amqp = require('amqplib/callback_api');
 var nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
 var TopClient = require('./topClient').TopClient;
+var retry = require('retry');
 var config = require('./config');
 
 var send_email = function(email, address, level) {
